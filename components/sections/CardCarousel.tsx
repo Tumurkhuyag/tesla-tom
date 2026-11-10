@@ -15,7 +15,7 @@ export function CardCarousel({ label, items }: { label: string; items: ProductCa
   );
 }
 
-function ProductCard({ item }: { item: ProductCardItem }) {
+export function ProductCard({ item }: { item: ProductCardItem }) {
   const { sub } = item;
   const subClass = "mt-0.5 inline-block text-[17px]/7 md:text-xl/7";
 

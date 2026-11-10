@@ -26,7 +26,7 @@ const imageSize = {
   side: { width: 1831, height: 2240 },
 };
 
-function PromoCard({ promo }: { promo: PromoItem }) {
+export function PromoCard({ promo }: { promo: PromoItem }) {
   return (
     <article className="relative flex min-h-[220px] flex-col overflow-hidden rounded-card bg-gray-bg sm:flex-row">
       <div className="relative z-1 p-6 sm:flex-1 sm:px-12 sm:py-9">

@@ -45,7 +45,7 @@ function CardGrid({ cards, columns, wholeCardLink }: { cards: MegaCardItem[]; co
   );
 }
 
-function MegaCard({ card, wholeCardLink }: { card: MegaCardItem; wholeCardLink?: boolean }) {
+export function MegaCard({ card, wholeCardLink }: { card: MegaCardItem; wholeCardLink?: boolean }) {
   const image = (
     <Image
       src={card.image}
