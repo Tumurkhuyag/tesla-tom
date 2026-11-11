@@ -10,8 +10,9 @@ import { SideNav } from "@/components/styleguide/SideNav";
 import { ColorSwatch, CssVarValue } from "@/components/styleguide/Token";
 import { Code, Panel, SgSection, SpecRow, SubHeading, type SgSectionInfo } from "@/components/styleguide/ui";
 import { Button, ButtonRow } from "@/components/ui/Button";
-import { energyCards, promos, vehicleCards } from "@/data/home";
+import { promos } from "@/data/home";
 import { navMenus } from "@/data/nav";
+import { getProductCards } from "@/lib/product-cards";
 
 export const metadata: Metadata = {
   title: "Styleguide | Tesla (clone)",
@@ -117,10 +118,10 @@ function Principles() {
    ========================================================= */
 function Brand() {
   const tiles = [
-    { label: "Цагаан дээр", note: "text-ink", className: "bg-white text-ink border border-line" },
-    { label: "Саарал дээр", note: "text-ink · bg-gray-bg", className: "bg-gray-bg text-ink" },
-    { label: "Бараан дээр", note: "text-white · bg-ink", className: "bg-ink text-white" },
-    { label: "Улаан дээр", note: "text-white · bg-red-700", className: "bg-red-700 text-white" },
+    { label: "Цагаан дээр", note: "text-ink · Header", className: "bg-white text-ink border border-line" },
+    { label: "Саарал дээр", note: "text-ink · жишээ", className: "bg-gray-bg text-ink" },
+    { label: "Бараан дээр", note: "text-white · жишээ", className: "bg-ink text-white" },
+    { label: "Улаан дээр", note: "text-white · жишээ", className: "bg-red-700 text-white" },
   ];
   return (
     <SgSection
@@ -128,7 +129,8 @@ function Brand() {
       intro={
         <>
           <Code>TeslaLogo</Code> (<Code>components/icons.tsx</Code>) нь <Code>fill=&quot;currentColor&quot;</Code>{" "}
-          тул өнгөө эцэг элементээс авна. Header дээр 120 × 12px.
+          тул өнгөө эцэг элементээс авна. Сайт дээр зөвхөн Header-т (цагаан дээр, 120 × 12px) хэрэглэгддэг —
+          бусад нь өөр дэвсгэр дээр хэрэглэх бол ингэж харагдана гэсэн жишээ.
         </>
       }
     >
@@ -181,7 +183,7 @@ function Colors() {
     ["Гол үйлдэл", "bg-red-700", "--color-red-700"],
     ["Хоёрдогч үйлдэл (цайвар)", "bg-white text-ink-2", "--color-ink-2"],
     ["Хоёрдогч үйлдэл (бараан)", "bg-ink text-white", "--color-ink"],
-    ["Focus", "outline-blue", "--color-blue"],
+    ["Focus", ":focus-visible (globals.css)", "--color-blue"],
   ];
 
   return (
@@ -288,12 +290,14 @@ function Typography() {
   ];
 
   const sizes = [
-    { px: 10, cls: "text-[10px]", use: "Footnote-ийн тоо, газрын зургийн тэмдэглэгээ" },
+    { px: 8, cls: "text-[8px]", use: "Footnote доторх дугаар" },
+    { px: 10, cls: "text-[10px]", use: "Картын footnote тоо, газрын зургийн тэмдэглэгээ" },
     { px: 12, cls: "text-xs", use: "Footer, footnote, mega menu гарчиг" },
     { px: 14, cls: "text-sm", use: "Body, товч, цэс" },
     { px: 17, cls: "text-[17px]", use: "Eyebrow, hero sub, mobile цэс" },
     { px: 20, cls: "text-xl", use: "Lead, картын sub" },
     { px: 32, cls: "text-[32px]", use: "Promo гарчиг, утсан дээрх hero" },
+    { px: 36, cls: "text-[36px]", use: "Утсан дээрх Find Your Charge, том тоо" },
     { px: 40, cls: "text-[40px]", use: "Hero, FSD гарчиг" },
     { px: 48, cls: "text-5xl", use: "Find Your Charge, том тоо" },
     { px: 56, cls: "text-[56px]", use: "Машины картын нэр" },
@@ -680,7 +684,9 @@ function IconsSection() {
 /* =========================================================
    10 Компонент
    ========================================================= */
-function ComponentsSection() {
+async function ComponentsSection() {
+  const [vehicleCards, energyCards] = await Promise.all([getProductCards("vehicle"), getProductCards("energy")]);
+
   const variants = [
     { variant: "primary", note: "Гол үйлдэл: Order Now, Reserve" },
     { variant: "light", note: "Зураг/бараан дээрх хоёрдогч" },
@@ -761,7 +767,7 @@ function ComponentsSection() {
 
       {/* ProductCard */}
       <div>
-        <SubHeading note={<><Code>ProductCard</Code> · <Code>data/home.ts</Code>-ийн <Code>vehicleCards</Code>, <Code>energyCards</Code></>}>
+        <SubHeading note={<><Code>ProductCard</Code> · Supabase <Code>product_cards</Code> хүснэгт (<Code>lib/product-cards.ts</Code>)</>}>
           Бүтээгдэхүүний карт
         </SubHeading>
         <div className="grid gap-4 xl:grid-cols-2">

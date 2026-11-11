@@ -7,9 +7,12 @@ import { Footnotes } from "@/components/sections/Footnotes";
 import { FsdSection } from "@/components/sections/FsdSection";
 import { HeroCarousel } from "@/components/sections/HeroCarousel";
 import { PromoGrid } from "@/components/sections/PromoGrid";
-import { energyCards, vehicleCards } from "@/data/home";
+import { getProductCards } from "@/lib/product-cards";
 
-export default function Home() {
+export default async function Home() {
+  const [vehicleCards, energyCards] = await Promise.all([getProductCards("vehicle"), getProductCards("energy")]);
+
+
   return (
     <>
       <Header />
