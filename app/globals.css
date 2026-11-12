@@ -57,11 +57,6 @@
   }
 }
 
-/* Mega menu нээлттэй үед хуудсыг бүдгэрүүлнэ */
-body:has(.nav-item:hover .mega, .nav-item:focus-within .mega) .menu-backdrop {
-  opacity: 1;
-}
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     transition-duration: 0.01ms !important;

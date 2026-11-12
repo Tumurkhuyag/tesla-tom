@@ -3,7 +3,7 @@ import { footerLinks } from "@/data/home";
 export function Footer() {
   return (
     <footer className="px-(--gutter) pt-16 pb-10">
-      <h2 className="sr-only">Footer menu</h2>
+      <h2 className="sr-only">Хөлийн цэс</h2>
       <ul className="flex flex-wrap justify-center gap-x-3.5 gap-y-1">
         {footerLinks.map((l) => (
           <li key={l.label}>

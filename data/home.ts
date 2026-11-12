@@ -5,38 +5,21 @@ const T = "https://www.tesla.com";
 
 export const heroSlides: HeroSlideItem[] = [
   {
-    image: `${CDN}/Homepage-Promo-Roadster-desktop.jpg`,
-    alt: "Roadster",
-    logo: { src: `${CDN}/Roadster-Logo-Final-Tablet.png`, alt: "Roadster" },
-    buttons: [
-      { label: "Захиалга өгөх", href: `${T}/roadster/reserve`, variant: "primary" },
-      { label: "Learn More", href: `${T}/roadster`, variant: "light" },
-    ],
-  },
-  {
     image: `${CDN}/Homepage-Promo-Model-Y-L-Family-Desktop-NA.jpg`,
-    alt: "Model Y family driving along a city lakefront",
+    alt: "Гэр бүл Model Y-гаар хотын нуурын эргээр явж буй нь",
     title: "Model Y",
-    sub: {
-      label: "2.49% APR Available",
-      href: `${T}/modely/design?cfg=%24MTY94&modal=finance&financeModalTab=finance_options&id=finplat.AUTO_LOAN%3ALOAN%3ACT_PRIVATE#overview`,
-    },
     buttons: [
-      { label: "Order Now", href: `${T}/modely/design?cfg=%24MTY61`, variant: "primary" },
-      { label: "Learn More", href: `${T}/modely`, variant: "light" },
+      { label: "Захиалах", href: `${T}/modely/design?cfg=%24MTY61`, variant: "primary" },
+      { label: "Дэлгэрэнгүй", href: `${T}/modely`, variant: "light" },
     ],
   },
   {
     image: `${CDN}/Homepage-Promo-Model-3-Desktop-US.jpg`,
-    alt: "Model 3 driving through the desert",
+    alt: "Model 3 цөлөөр давхиж буй нь",
     title: "Model 3",
-    sub: {
-      label: "1.99% APR Available",
-      href: `${T}/model3/design?cfg=%24MT379&id=finplat.AUTO_LOAN%3ALOAN%3ACT_PRIVATE#overview`,
-    },
     buttons: [
-      { label: "Order Now", href: `${T}/model3/design?cfg=%24MT369`, variant: "primary" },
-      { label: "Learn More", href: `${T}/model3`, variant: "light" },
+      { label: "Захиалах", href: `${T}/model3/design?cfg=%24MT369`, variant: "primary" },
+      { label: "Дэлгэрэнгүй", href: `${T}/model3`, variant: "light" },
     ],
   },
 ];
@@ -67,11 +50,7 @@ export const footnotes: string[] = [
 
 export const footerLinks: LinkItem[] = [
   { label: "Tesla © 2026", href: `${T}/about` },
-  { label: "Privacy & Legal", href: `${T}/legal` },
-  { label: "Vehicle Recalls", href: "https://service.tesla.com/en-US/vin-recall-search" },
-  { label: "Contact", href: `${T}/contact` },
-  { label: "News", href: `${T}/blog` },
-  { label: "Get Updates", href: `${T}/updates` },
-  { label: "Locations", href: `${T}/findus/list` },
-  { label: "Learn", href: `${T}/learn` },
+  { label: "Нууцлал ба эрх зүй", href: `${T}/legal` },
+  { label: "Эргүүлэн татах мэдэгдэл", href: "https://service.tesla.com/en-US/vin-recall-search" },
+  { label: "Холбоо барих", href: `${T}/contact` },
 ];

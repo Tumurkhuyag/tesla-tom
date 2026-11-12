@@ -8,7 +8,7 @@ export function HeroCarousel() {
   return (
     <Carousel
       variant="hero"
-      label="Featured"
+      label="Онцлох загварууд"
       slideLabels={heroSlides.map((s) => s.title ?? s.logo?.alt ?? s.alt)}
     >
       {heroSlides.map((slide, i) => (

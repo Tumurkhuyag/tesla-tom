@@ -3,7 +3,6 @@ import type { ComponentType, ReactNode } from "react";
 import * as Icons from "@/components/icons";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
-import { MegaCard } from "@/components/layout/MegaMenu";
 import { ProductCard } from "@/components/sections/CardCarousel";
 import { PromoCard } from "@/components/sections/PromoGrid";
 import { SideNav } from "@/components/styleguide/SideNav";
@@ -11,7 +10,6 @@ import { ColorSwatch, CssVarValue } from "@/components/styleguide/Token";
 import { Code, Panel, SgSection, SpecRow, SubHeading, type SgSectionInfo } from "@/components/styleguide/ui";
 import { Button, ButtonRow } from "@/components/ui/Button";
 import { promos } from "@/data/home";
-import { navMenus } from "@/data/nav";
 import { getProductCards } from "@/lib/product-cards";
 
 export const metadata: Metadata = {
@@ -173,7 +171,7 @@ function Colors() {
     { value: "#929292", label: "#929292", description: "Destination Charger дүрс" },
     { value: "#d4d6d9", label: "#d4d6d9", description: "Газрын зургийн дэвсгэр" },
     { value: "#232c4d", label: "#232c4d", description: "“Self-Driving” gradient-ийн эхлэл" },
-    { value: "#eeeeee", label: "#eeeeee", description: "Light товчны hover, mega menu шугам" },
+    { value: "#eeeeee", label: "#eeeeee", description: "Light товчны hover" },
   ];
 
   const usage: [string, string, string][] = [
@@ -292,7 +290,7 @@ function Typography() {
   const sizes = [
     { px: 8, cls: "text-[8px]", use: "Footnote доторх дугаар" },
     { px: 10, cls: "text-[10px]", use: "Картын footnote тоо, газрын зургийн тэмдэглэгээ" },
-    { px: 12, cls: "text-xs", use: "Footer, footnote, mega menu гарчиг" },
+    { px: 12, cls: "text-xs", use: "Footer, footnote" },
     { px: 14, cls: "text-sm", use: "Body, товч, цэс" },
     { px: 17, cls: "text-[17px]", use: "Eyebrow, hero sub, mobile цэс" },
     { px: 20, cls: "text-xl", use: "Lead, картын sub" },
@@ -431,7 +429,7 @@ function Spacing() {
   const breakpoints = [
     { name: "sm", px: 600, desc: "Товчнууд тогтмол өргөнтэй болно, promo хэвтээ" },
     { name: "md", px: 900, desc: "Gutter 48px, carousel сум/цэг гарна, FSD 2 багана" },
-    { name: "lg", px: 1200, desc: "Desktop цэс, mega menu, header icon" },
+    { name: "lg", px: 1200, desc: "Desktop цэс, header icon" },
   ];
 
   return (
@@ -789,15 +787,6 @@ async function ComponentsSection() {
         </div>
       </div>
 
-      {/* MegaCard */}
-      <div>
-        <SubHeading note={<><Code>MegaCard</Code> · <Code>data/nav.ts</Code></>}>Mega menu карт</SubHeading>
-        <Panel className="flex flex-wrap justify-center gap-6 bg-white">
-          {navMenus[0].kind === "cards" &&
-            navMenus[0].cards.slice(0, 3).map((c) => <MegaCard key={c.title} card={c} />)}
-        </Panel>
-      </div>
-
       {/* Stat */}
       <div>
         <SubHeading>Статистик</SubHeading>
@@ -821,11 +810,8 @@ async function ComponentsSection() {
         <SubHeading>Байнгын хэсгүүд</SubHeading>
         <SpecRow name={<Code>Header</Code>} value="layout/Header.tsx">
           <p className="text-sm text-ink-3">
-            Sticky, цагаан. ≥1200px: 7 цэс + mega menu (hover/focus), icon. Түүнээс доош “Menu” товч → баруун талаас гулсах цэс.
+            Sticky, цагаан. ≥1200px: ил харагдах машины холбоосууд, icon. Түүнээс доош “Menu” товч → баруун талаас гулсах цэс.
           </p>
-        </SpecRow>
-        <SpecRow name={<Code>MegaMenu</Code>} value="layout/MegaMenu.tsx">
-          <p className="text-sm text-ink-3">Гурван төрөл: cards + жагсаалт, 3 багана, shop. Нээгдэхэд хуудас бүдгэрнэ.</p>
         </SpecRow>
         <SpecRow name={<Code>MobileMenu</Code>} value="layout/MobileMenu.tsx">
           <p className="text-sm text-ink-3">400px өргөн panel, 30% бараан scrim. Esc болон scrim дээр дарахад хаагдана.</p>

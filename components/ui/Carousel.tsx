@@ -104,7 +104,7 @@ function CarouselArrow({
     <button
       type="button"
       onClick={onClick}
-      aria-label={direction === "prev" ? "Previous slide" : "Next slide"}
+      aria-label={direction === "prev" ? "Өмнөх" : "Дараах"}
       className={cn(
         "absolute z-3 -mt-5 hidden size-10 cursor-pointer place-items-center rounded-btn bg-[rgba(244,244,244,.65)] text-ink backdrop-blur-[8px] transition-colors duration-300 hover:bg-[rgba(244,244,244,.9)] md:grid",
         hero ? "top-1/2" : "top-[290px]",
@@ -141,7 +141,7 @@ function CarouselDots({
           key={i}
           type="button"
           onClick={() => onSelect(i)}
-          aria-label={`Go to ${labels[i] ?? `slide ${i + 1}`}`}
+          aria-label={`${labels[i] ?? `${i + 1}-р слайд`} руу шилжих`}
           aria-current={i === active}
           className={cn(
             "size-2 cursor-pointer rounded-full transition-[background-color,scale] duration-300 hover:scale-125",

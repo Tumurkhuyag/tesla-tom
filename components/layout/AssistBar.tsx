@@ -8,20 +8,20 @@ export function AssistBar() {
   return (
     <div
       role="complementary"
-      aria-label="Tesla Assist"
+      aria-label="Туслах"
       className="fixed inset-x-0 bottom-0 z-30 flex justify-center gap-4 bg-white/92 px-4 py-2.5 backdrop-blur-[12px]"
     >
       <a href="https://www.tesla.com/support" className={`${pill} flex-1 pr-3 pl-5 md:w-[540px] md:flex-none`}>
         <ChatIcon />
-        <span>Ask a Question</span>
-        <span className="hidden flex-1 truncate text-[#8e8e8e] md:block">&quot;Compare Model 3 and Model Y&quot;</span>
+        <span>Асуулт асуух</span>
+        <span className="hidden flex-1 truncate text-[#8e8e8e] md:block">&quot;Model 3 болон Model Y-г харьцуулах&quot;</span>
         <span className="grid size-6 place-items-center rounded-[4px] bg-[#e2e3e3]">
           <SendIcon />
         </span>
       </a>
       <a href="https://www.tesla.com/drive" className={`${pill} px-3 md:px-6`}>
         <SteeringWheelIcon />
-        <span className="hidden sm:inline">Schedule a Drive Today</span>
+        <span className="hidden sm:inline">Туршилтын жолоодлогод бүртгүүлэх</span>
       </a>
     </div>
   );
