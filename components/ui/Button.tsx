@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { ButtonItem, ButtonVariant } from "@/data/types";
 import { cn } from "@/lib/cn";
+import { ORDER_PATH_PREFIX } from "@/lib/orderable";
 
 const variants: Record<ButtonVariant, string> = {
   primary: "bg-red-700 text-white hover:bg-red-800",
@@ -25,17 +26,28 @@ export function Button({
   className,
   children,
 }: ButtonProps) {
+  const classes = cn(
+    // Утсан дээр мөрөө тэнцүү хуваана, 600px-ээс дээш тогтмол өргөнтэй
+    "inline-flex h-10 min-w-0 flex-[1_1_140px] cursor-pointer items-center justify-center whitespace-nowrap rounded-btn px-6 text-sm leading-none font-medium transition-[background-color,color,box-shadow] duration-330",
+    "sm:min-w-40 sm:flex-initial",
+    wide && "sm:min-w-50",
+    variants[variant],
+    className,
+  );
+
+  // Byl-ээр захиалах товч: GET-ээр (bot, prefetch) checkout үүсэхгүйн тулд POST form болгоно
+  if (href.startsWith(ORDER_PATH_PREFIX)) {
+    return (
+      <form method="post" action={href} className="contents">
+        <button type="submit" className={classes}>
+          {children}
+        </button>
+      </form>
+    );
+  }
+
   return (
-    <a
-      href={href}
-      className={cn(
-        // Утсан дээр мөрөө тэнцүү хуваана, 600px-ээс дээш тогтмол өргөнтэй
-        "inline-flex h-10 min-w-0 flex-[1_1_140px] cursor-pointer items-center justify-center whitespace-nowrap rounded-btn px-6 text-sm leading-none font-medium transition-[background-color,color,box-shadow] duration-330",
-        "sm:min-w-40 sm:flex-initial",
-        wide && "sm:min-w-50",
-        variants[variant],
-        className,
-      )}>
+    <a href={href} className={classes}>
       {children}
     </a>
   );
