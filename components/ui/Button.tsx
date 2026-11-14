@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import type { ButtonItem, ButtonVariant } from "@/data/types";
 import { cn } from "@/lib/cn";
-import { ORDER_PATH_PREFIX } from "@/lib/orderable";
 
 const variants: Record<ButtonVariant, string> = {
   primary: "bg-red-700 text-white hover:bg-red-800",
@@ -34,17 +33,6 @@ export function Button({
     variants[variant],
     className,
   );
-
-  // Byl-ээр захиалах товч: GET-ээр (bot, prefetch) checkout үүсэхгүйн тулд POST form болгоно
-  if (href.startsWith(ORDER_PATH_PREFIX)) {
-    return (
-      <form method="post" action={href} className="contents">
-        <button type="submit" className={classes}>
-          {children}
-        </button>
-      </form>
-    );
-  }
 
   return (
     <a href={href} className={classes}>
