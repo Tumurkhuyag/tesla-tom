@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode, Ref } from "react";
 import type { ButtonItem, ButtonVariant } from "@/data/types";
 import { cn } from "@/lib/cn";
 
@@ -16,7 +16,7 @@ type ButtonProps = {
   wide?: boolean;
   className?: string;
   children: ReactNode;
-};
+} & Omit<ComponentProps<"a">, "href" | "className" | "children">;
 
 export function Button({
   href,
@@ -24,6 +24,7 @@ export function Button({
   wide,
   className,
   children,
+  ...rest
 }: ButtonProps) {
   const classes = cn(
     // Утсан дээр мөрөө тэнцүү хуваана, 600px-ээс дээш тогтмол өргөнтэй
@@ -35,7 +36,7 @@ export function Button({
   );
 
   return (
-    <a href={href} className={classes}>
+    <a href={href} className={classes} {...rest}>
       {children}
     </a>
   );
@@ -44,12 +45,14 @@ export function Button({
 export function ButtonRow({
   className,
   children,
+  ref,
 }: {
   className?: string;
   children: ReactNode;
+  ref?: Ref<HTMLDivElement>;
 }) {
   return (
-    <div className={cn("flex w-full flex-wrap gap-2 sm:w-auto", className)}>
+    <div ref={ref} className={cn("flex w-full flex-wrap gap-2 sm:w-auto", className)}>
       {children}
     </div>
   );

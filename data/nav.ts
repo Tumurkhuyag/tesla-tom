@@ -4,7 +4,7 @@ const T = "https://www.tesla.com";
 
 /** Header дээр ил харагдах үндсэн холбоосууд */
 export const navLinks: LinkItem[] = [
-  { label: "Model 3", href: `${T}/model3` },
+  { label: "Model 3", href: "/model3" },
   { label: "Model Y", href: `${T}/modely` },
   { label: "Cybertruck", href: `${T}/cybertruck` },
   { label: "Model S", href: `${T}/models` },

@@ -19,7 +19,7 @@ export const heroSlides: HeroSlideItem[] = [
     title: "Model 3",
     buttons: [
       { label: "Захиалах", href: `${T}/model3/design?cfg=%24MT369`, variant: "primary" },
-      { label: "Дэлгэрэнгүй", href: `${T}/model3`, variant: "light" },
+      { label: "Дэлгэрэнгүй", href: "/model3", variant: "light" },
     ],
   },
 ];
