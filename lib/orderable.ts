@@ -1,9 +1,10 @@
 /**
- * Byl-ээр захиалж болох бүтээгдэхүүнүүд. Түлхүүр нь Byl дээрх үнийн lookup key.
+ * Byl-ээр захиалж болох бүтээгдэхүүнүүд. Түлхүүр нь Byl дээрх үнийн lookup key
+ * (`inlinePrice: true` бол Byl дээр бүртгэлгүй, `amount`-ийг шууд дамжуулна).
  * Картын товчны холбоос `/order/<lookup key>` (жш: /order/model_y_l_deposit) нь захиалга шалгах хуудас руу хөтөлнө.
  * Энд бүртгэлгүй key-ээр checkout үүсгэхгүй.
  *
- * `amount` нь зөвхөн харуулахад — бодит төлөх дүнг Byl дээрх үнэ тодорхойлно. Хоёуланг нь ижил байлгана.
+ * `inlinePrice: false` үед `amount` нь зөвхөн харуулахад — бодит төлөх дүнг Byl дээрх үнэ тодорхойлно. Хоёуланг нь ижил байлгана.
  */
 export const ORDERABLE = {
   model_y_l_deposit: {
@@ -13,11 +14,29 @@ export const ORDERABLE = {
     image:
       "https://grvfenbvzuklxsugjyod.supabase.co/storage/v1/object/public/product-images/vehicle/1-1794314567692.png",
     alt: "Model Y L Premium",
+    collectDelivery: true,
+    // Byl dashboard дээрх lookup key-ээр төлүүлнэ
+    inlinePrice: false,
+  },
+  test_drive_fee: {
+    title: "Туршилтын жолоодлого",
+    kind: "Баталгааны төлбөр",
+    amount: 20_000,
+    image:
+      "https://grvfenbvzuklxsugjyod.supabase.co/storage/v1/object/public/product-images/vehicle/1-1794314567692.png",
+    alt: "Туршилтын жолоодлого",
+    // Машинтай уулзах тул хүргэлтийн хаяг хэрэггүй
+    collectDelivery: false,
+    // Byl дээр бүртгэлгүй — дүнг checkout үүсгэхдээ шууд дамжуулна (price_data)
+    inlinePrice: true,
   },
 } as const satisfies Record<
   string,
-  { title: string; kind: string; amount: number; image: string; alt: string }
+  { title: string; kind: string; amount: number; image: string; alt: string; collectDelivery: boolean; inlinePrice: boolean }
 >;
+
+/** Туршилтын жолоодлогын баталгааны төлбөрийн Byl lookup key */
+export const TEST_DRIVE_KEY = "test_drive_fee" satisfies keyof typeof ORDERABLE;
 
 export type OrderableKey = keyof typeof ORDERABLE;
 

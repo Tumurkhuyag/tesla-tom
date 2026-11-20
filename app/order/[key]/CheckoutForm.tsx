@@ -19,6 +19,28 @@ export function CheckoutForm({ productKey, amountLabel }: { productKey: string; 
 
   return (
     <form action={formAction} className="space-y-3">
+      <PayButton state={state} pending={pending} amountLabel={amountLabel} />
+    </form>
+  );
+}
+
+/**
+ * Төлбөрийн товч + алдаа + Byl-ийн тайлбар. `<form>` дотор ашиглана.
+ * Туршилтын жолоодлогын хуудас (/test-drive) мөн дахин ашиглана.
+ */
+export function PayButton({
+  state,
+  pending,
+  amountLabel,
+  disabled = false,
+}: {
+  state: CheckoutState;
+  pending: boolean;
+  amountLabel: string;
+  disabled?: boolean;
+}) {
+  return (
+    <>
       {state.status === "error" && (
         <p role="alert" className="flex items-start gap-2 rounded-btn bg-red-50 px-3 py-2.5 text-sm text-red-800">
           <AlertIcon className="mt-px size-4 shrink-0" />
@@ -28,12 +50,13 @@ export function CheckoutForm({ productKey, amountLabel }: { productKey: string; 
 
       <button
         type="submit"
-        disabled={pending}
+        disabled={pending || disabled}
         aria-describedby="checkout-hint"
         className={cn(
           "inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-btn px-6 text-[15px] font-medium text-white transition-colors duration-330",
           "bg-blue hover:bg-blue-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue",
-          "disabled:cursor-wait disabled:opacity-80",
+          "disabled:cursor-not-allowed disabled:opacity-50",
+          pending && "disabled:cursor-wait disabled:opacity-80",
         )}
       >
         {pending ? (
@@ -57,6 +80,6 @@ export function CheckoutForm({ productKey, amountLabel }: { productKey: string; 
       <p aria-live="polite" className="sr-only">
         {pending ? "Төлбөрийн хуудас руу шилжүүлж байна" : ""}
       </p>
-    </form>
+    </>
   );
 }

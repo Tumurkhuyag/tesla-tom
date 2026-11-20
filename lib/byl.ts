@@ -53,8 +53,16 @@ type CustomField = {
   optional?: boolean;
 };
 
+/**
+ * `price` — Byl dashboard дээр бүртгэсэн үнийн lookup key.
+ * `price_data` — бүртгэлгүй, дүнг шууд дамжуулна (dashboard тохиргоо шаардахгүй).
+ */
+export type CheckoutItem =
+  | { price: string; quantity: number }
+  | { price_data: { unit_amount: number; product_data: { name: string } }; quantity: number };
+
 export type CreateCheckoutInput = {
-  items: { price: string; quantity: number }[];
+  items: CheckoutItem[];
   client_reference_id: string;
   success_url: string;
   cancel_url: string;

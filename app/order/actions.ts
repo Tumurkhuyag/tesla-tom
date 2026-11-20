@@ -3,7 +3,8 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createCheckout } from "@/lib/byl";
-import { isOrderableKey, ORDERABLE } from "@/lib/orderable";
+import { isOrderableKey, ORDERABLE, TEST_DRIVE_KEY, type OrderableKey } from "@/lib/orderable";
+import { getTestDriveVehicles } from "@/lib/product-cards";
 import { createSupabaseAdminClient } from "@/lib/supabase-admin";
 
 export type CheckoutState = { status: "idle" } | { status: "error"; message: string };
@@ -17,11 +18,21 @@ async function siteOrigin() {
 }
 
 /**
- * «Byl-ээр төлөх» товч → захиалгын мөр үүсгэж, Byl checkout үүсгээд тийш шилжүүлнэ.
+ * Захиалгын мөр үүсгэж, Byl checkout үүсгээд тийш шилжүүлнэ.
  * Алдаа гарвал хуудсаа орхилгүй тэр дор нь мессеж харуулна.
  */
-export async function startCheckout(key: string): Promise<CheckoutState> {
-  if (!isOrderableKey(key)) return { status: "error", message: "Ийм бүтээгдэхүүн олдсонгүй." };
+async function createOrderCheckout({
+  key,
+  productTitle,
+  vehicle = null,
+  cancelPath,
+}: {
+  key: OrderableKey;
+  productTitle: string;
+  vehicle?: string | null;
+  cancelPath: string;
+}): Promise<CheckoutState> {
+  const product = ORDERABLE[key];
 
   let checkoutUrl: string;
   try {
@@ -30,21 +41,25 @@ export async function startCheckout(key: string): Promise<CheckoutState> {
 
     const { data: order, error } = await supabase
       .from("orders")
-      .insert({ price_lookup_key: key, product_title: `${ORDERABLE[key].title} — ${ORDERABLE[key].kind}` })
+      .insert({ price_lookup_key: key, product_title: productTitle, vehicle })
       .select("id")
       .single<{ id: string }>();
     if (error) throw new Error(`orders insert: ${error.message}`);
 
     try {
       const checkout = await createCheckout({
-        items: [{ price: key, quantity: 1 }],
+        items: [
+          product.inlinePrice
+            ? { price_data: { unit_amount: product.amount, product_data: { name: productTitle } }, quantity: 1 }
+            : { price: key, quantity: 1 },
+        ],
         client_reference_id: order.id,
         success_url: `${origin}/order/success?order=${order.id}`,
-        // Цуцалбал захиалга шалгах хуудас руу буцаж, юу болсныг харуулна
-        cancel_url: `${origin}/order/${key}?canceled=1`,
+        // Цуцалбал өмнөх хуудас руу буцаж, юу болсныг харуулна
+        cancel_url: `${origin}${cancelPath}`,
         email_collection: true,
         phone_number_collection: true,
-        delivery_address_collection: true,
+        delivery_address_collection: product.collectDelivery,
         custom_fields: [
           { key: "last_name", label: "Овог", type: "text" },
           { key: "first_name", label: "Нэр", type: "text" },
@@ -63,4 +78,32 @@ export async function startCheckout(key: string): Promise<CheckoutState> {
 
   // redirect() нь try дотор байвал барьж авагдана — тиймээс гадна нь
   redirect(checkoutUrl);
+}
+
+/** «Byl-ээр төлөх» товч (/order/[key]) */
+export async function startCheckout(key: string): Promise<CheckoutState> {
+  if (!isOrderableKey(key) || key === TEST_DRIVE_KEY) {
+    return { status: "error", message: "Ийм бүтээгдэхүүн олдсонгүй." };
+  }
+  return createOrderCheckout({
+    key,
+    productTitle: `${ORDERABLE[key].title} — ${ORDERABLE[key].kind}`,
+    cancelPath: `/order/${key}?canceled=1`,
+  });
+}
+
+/** Туршилтын жолоодлого: сонгосон машинаар 20,000₮-ийн checkout (/test-drive) */
+export async function startTestDriveCheckout(_prev: CheckoutState, formData: FormData): Promise<CheckoutState> {
+  const vehicle = String(formData.get("vehicle") ?? "");
+  // Client-ээс ирсэн утгад итгэхгүй — санал болгож буй машинуудтай тулгана
+  const vehicles = await getTestDriveVehicles();
+  if (!vehicles.some((v) => v.title === vehicle)) {
+    return { status: "error", message: "Туршиж үзэх машинаа сонгоно уу." };
+  }
+  return createOrderCheckout({
+    key: TEST_DRIVE_KEY,
+    productTitle: `${ORDERABLE[TEST_DRIVE_KEY].title} — ${vehicle}`,
+    vehicle,
+    cancelPath: `/test-drive?car=${encodeURIComponent(vehicle)}&canceled=1`,
+  });
 }

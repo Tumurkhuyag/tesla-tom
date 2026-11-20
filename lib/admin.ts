@@ -16,6 +16,7 @@ export type AdminCard = {
   sub_footnote: number | null;
   buttons: ButtonItem[];
   is_published: boolean;
+  test_drive: boolean;
   updated_at: string;
 };
 
@@ -46,7 +47,7 @@ export async function getVehicleCardForAdmin(
 ): Promise<AdminCard | null> {
   const { data, error } = await supabase
     .from("product_cards")
-    .select("id, position, image, alt, eyebrow, title, sub_text, sub_href, sub_footnote, buttons, is_published, updated_at")
+    .select("id, position, image, alt, eyebrow, title, sub_text, sub_href, sub_footnote, buttons, is_published, test_drive, updated_at")
     .eq("category", "vehicle")
     .eq("id", id)
     .returns<AdminCard[]>()
@@ -62,11 +63,49 @@ export async function getVehicleCardsForAdmin(
 ): Promise<AdminCard[]> {
   const { data, error } = await supabase
     .from("product_cards")
-    .select("id, position, image, alt, eyebrow, title, sub_text, sub_href, sub_footnote, buttons, is_published, updated_at")
+    .select("id, position, image, alt, eyebrow, title, sub_text, sub_href, sub_footnote, buttons, is_published, test_drive, updated_at")
     .eq("category", "vehicle")
     .order("position", { ascending: true })
     .returns<AdminCard[]>();
 
   if (error) throw new Error(`Машины картуудыг татахад алдаа гарлаа: ${error.message}`);
+  return data;
+}
+
+/** Admin-ы захиалгын жагсаалтад харуулах `orders` мөр */
+export type AdminOrder = {
+  id: string;
+  price_lookup_key: string;
+  product_title: string;
+  status: "pending" | "paid" | "expired";
+  amount_total: number | null;
+  first_name: string | null;
+  last_name: string | null;
+  phone_number: string | null;
+  customer_email: string | null;
+  delivery_address: unknown;
+  vehicle: string | null;
+  cal_booking_uid: string | null;
+  booked_at: string | null;
+  byl_checkout_id: number | null;
+  created_at: string;
+  paid_at: string | null;
+};
+
+/** Сүүлийн захиалгуудыг (шинэ нь эхэндээ) татна. RLS: зөвхөн admin уншина. */
+export async function getOrdersForAdmin(
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+  limit = 1000,
+): Promise<AdminOrder[]> {
+  const { data, error } = await supabase
+    .from("orders")
+    .select(
+      "id, price_lookup_key, product_title, status, amount_total, first_name, last_name, phone_number, customer_email, delivery_address, vehicle, cal_booking_uid, booked_at, byl_checkout_id, created_at, paid_at",
+    )
+    .order("created_at", { ascending: false })
+    .limit(limit)
+    .returns<AdminOrder[]>();
+
+  if (error) throw new Error(`Захиалгуудыг татахад алдаа гарлаа: ${error.message}`);
   return data;
 }

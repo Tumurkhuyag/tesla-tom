@@ -1,4 +1,5 @@
 import { ChatIcon, SendIcon, SteeringWheelIcon } from "@/components/icons";
+import Link from "next/link";
 
 const pill =
   "flex h-10 items-center gap-2 rounded-btn border border-line bg-white text-sm leading-none font-medium text-ink-2";
@@ -19,10 +20,11 @@ export function AssistBar() {
           <SendIcon />
         </span>
       </a>
-      <a href="https://www.tesla.com/drive" className={`${pill} px-3 md:px-6`}>
+      <Link href="/test-drive" className={`${pill} px-3 md:px-6`}>
         <SteeringWheelIcon />
         <span className="hidden sm:inline">Туршилтын жолоодлогод бүртгүүлэх</span>
-      </a>
+        <span className="sr-only sm:hidden">Туршилтын жолоодлогод бүртгүүлэх</span>
+      </Link>
     </div>
   );
 }

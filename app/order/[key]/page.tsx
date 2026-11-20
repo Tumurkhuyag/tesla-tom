@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { Suspense } from "react";
 import { AlertIcon, ChevronLeft } from "@/components/icons";
-import { formatMnt, isOrderableKey, ORDERABLE } from "@/lib/orderable";
+import { formatMnt, isOrderableKey, ORDERABLE, TEST_DRIVE_KEY } from "@/lib/orderable";
 import { OrderCard, OrderLayout, OrderSteps, ReceiptRow } from "../OrderMessage";
 import { CheckoutForm } from "./CheckoutForm";
 
@@ -37,6 +37,8 @@ async function Review({
 }) {
   const [{ key }, { canceled }] = await Promise.all([params, searchParams]);
   if (!isOrderableKey(key)) notFound();
+  // Туршилтын жолоодлогын төлбөр машин сонгохгүйгээр төлөгдөхгүй
+  if (key === TEST_DRIVE_KEY) redirect("/test-drive");
   const product = ORDERABLE[key];
   const amount = formatMnt(product.amount);
 

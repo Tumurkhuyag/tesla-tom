@@ -101,6 +101,7 @@ function parseCard(formData: FormData) {
       sub_footnote: subText ? footnote : null,
       buttons,
       is_published: formData.get("is_published") === "on",
+      test_drive: formData.get("test_drive") === "on",
     },
   };
 }

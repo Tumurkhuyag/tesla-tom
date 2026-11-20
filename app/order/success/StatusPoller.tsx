@@ -11,7 +11,7 @@ const MAX_TRIES = 20; // ~1 минут
  * Webhook ирэхийг хүлээх зуур хуудсыг өөрөө шинэчилнэ (Feedback).
  * Хэрэглэгч «Refresh дар» гэсэн заавар дагах шаардлагагүй.
  */
-export function StatusPoller() {
+export function StatusPoller({ label = "Byl-ээс баталгаажуулалт хүлээж байна…" }: { label?: string }) {
   const router = useRouter();
   const [tries, setTries] = useState(0);
   const gaveUp = tries >= MAX_TRIES;
@@ -32,7 +32,7 @@ export function StatusPoller() {
       ) : (
         <>
           <SpinnerIcon className="size-4 animate-spin" />
-          Byl-ээс баталгаажуулалт хүлээж байна…
+          {label}
         </>
       )}
     </p>

@@ -27,7 +27,7 @@ async function CardList() {
   const cards = await getVehicleCardsForAdmin(supabase);
 
   return (
-    <AdminShell email={user.email} title="Машины картууд">
+    <AdminShell email={user.email} title="Машины картууд" section="cards">
       <p className="mb-4 text-sm text-ink-3">
         {cards.length} карт · нүүр хуудсанд харагдах дарааллаар. Засах картаа сонгоно уу.
       </p>

@@ -32,7 +32,7 @@ async function EditCard({ params }: { params: Promise<{ id: string }> }) {
   if (!card) notFound();
 
   return (
-    <AdminShell email={user.email} title={card.title} back={{ href: "/admin", label: "Машины картууд" }}>
+    <AdminShell email={user.email} title={card.title} section="cards" back={{ href: "/admin", label: "Машины картууд" }}>
       <CardForm card={card} />
     </AdminShell>
   );

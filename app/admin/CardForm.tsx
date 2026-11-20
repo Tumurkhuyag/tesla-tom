@@ -280,6 +280,15 @@ export function CardForm({ card }: { card: AdminCard }) {
               />
               Сайт дээр харуулах
             </label>
+            <label className="flex h-10 cursor-pointer items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                name="test_drive"
+                defaultChecked={card.test_drive}
+                className="size-4 accent-blue"
+              />
+              Туршилтын жолоодлогод санал болгох
+            </label>
           </div>
         </div>
       </div>

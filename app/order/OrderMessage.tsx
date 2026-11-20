@@ -22,16 +22,25 @@ export function OrderCard({ children, className }: { children?: ReactNode; class
 }
 
 const STEPS = ["Захиалга шалгах", "Byl-ээр төлөх", "Баталгаажсан"] as const;
+export const TEST_DRIVE_STEPS = ["Машин сонгох", "Byl-ээр төлөх", "Цаг захиалах"] as const;
 
 /**
  * Захиалгын явцыг 3 алхмаар харуулна (Metaphor: аяллын зам / дэлгүүрийн касс).
  * `current` — одоо байгаа алхам (1-ээс). `complete` бол бүх алхам дууссан.
  */
-export function OrderSteps({ current, complete = false }: { current: 1 | 2 | 3; complete?: boolean }) {
+export function OrderSteps({
+  current,
+  complete = false,
+  steps = STEPS,
+}: {
+  current: 1 | 2 | 3;
+  complete?: boolean;
+  steps?: readonly [string, string, string];
+}) {
   return (
     <nav aria-label="Захиалгын явц" className="mb-4">
       <ol className="grid grid-cols-3 gap-2">
-        {STEPS.map((label, i) => {
+        {steps.map((label, i) => {
           const n = i + 1;
           const done = complete || n < current;
           const active = !complete && n === current;

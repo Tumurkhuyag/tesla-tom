@@ -53,3 +53,27 @@ export async function getProductCards(category: ProductCardCategory): Promise<Pr
 
   return data.map(toItem);
 }
+
+export type TestDriveVehicle = { title: string; image: string; alt: string };
+
+/** Туршилтын жолоодлогод санал болгох (нийтлэгдсэн, `test_drive` = true) машинууд */
+export async function getTestDriveVehicles(): Promise<TestDriveVehicle[]> {
+  "use cache";
+  cacheLife("hours");
+  cacheTag("product-cards", "product-cards:vehicle");
+
+  const { data, error } = await supabase
+    .from("product_cards")
+    .select("title, image, alt")
+    .eq("category", "vehicle")
+    .eq("is_published", true)
+    .eq("test_drive", true)
+    .order("position", { ascending: true })
+    .returns<TestDriveVehicle[]>();
+
+  if (error) {
+    throw new Error(`Туршилтын машинуудыг татахад алдаа гарлаа: ${error.message}`);
+  }
+
+  return data;
+}
